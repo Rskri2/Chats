@@ -22,7 +22,7 @@ class _ChatScreenState extends State<ChatScreen> {
   late final UserService userService;
   bool _isUploading = false;
   bool _showEmoji = false;
-
+  late final mq = MediaQuery.of(context).size;
   List<Message> messages = [];
   @override
   void initState() {
@@ -146,11 +146,13 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
 
-              Align(
+              Padding(
+                  padding: EdgeInsets.only(bottom: _showEmoji ? mq.height * 0.35 : 0),
+                  child: Align(
                 alignment: Alignment.bottomLeft,
+
                 child: Container(
                   padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-                  height: 60,
                   width: double.infinity,
                   color: Colors.white,
                   child: Row(
@@ -165,10 +167,13 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                       SizedBox(width: 15),
                       Expanded(
+
                         child: TextField(
                           autofocus: false,
                           autocorrect: false,
                           controller: controller,
+                          minLines:1,
+                          maxLines:4,
                           decoration: InputDecoration(
                             hintText: "Write message here..",
                             border: InputBorder.none,
@@ -257,12 +262,12 @@ class _ChatScreenState extends State<ChatScreen> {
                     ],
                   ),
                 ),
-              ),
+              )),
               if (_showEmoji)
                 Align(
                   alignment: Alignment.bottomLeft,
-                  child: Container(
-                    padding: EdgeInsets.only(bottom: 60),
+                  child: SizedBox(
+                    height: mq.height * 0.35,
                     child: EmojiPicker(
                       textEditingController: controller,
                       config: const Config(),
